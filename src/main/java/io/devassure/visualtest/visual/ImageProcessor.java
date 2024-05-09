@@ -60,7 +60,7 @@ public class ImageProcessor {
         System.out.println("Total pixel diff = " + diff);
         double avg = diff/(w1*h1*3);
         double percentage = (avg/255)*100;
-        System.out.println("Percentage different between images = " + percentage);
+        System.out.println("Percentage difference between images = " + percentage);
         saveResult(baseImage, snapshot, resultImage, label);
         return percentage <= threshold;
     }

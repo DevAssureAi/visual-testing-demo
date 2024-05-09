@@ -8,7 +8,7 @@ import io.devassure.visualtest.visual.VisualComparisonService;
 public class DevAssureWebTests extends BaseTest {
     @Test
     public void testLandinPage(){
-        driver.get("http://localhost:3000");
+        driver.get("https://app.devassure.io");
         new VisualComparisonService().visualComparePage(driver, "devassurelanding");
     }
 }

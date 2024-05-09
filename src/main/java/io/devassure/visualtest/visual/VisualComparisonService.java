@@ -40,9 +40,9 @@ public class VisualComparisonService {
                 if(!result && !optional) {
                     Assert.fail("Visual comparison Failed! The current snapshot is deviating from base the base snapshot for label " + label);
                 } else if(result) {
-                    System.out.println("Visual comaprison passed! Label: " + label);
+                    System.out.println("Visual comparison passed! Label: " + label);
                 } else {
-                    System.out.println("Visual comaprison failed! Skipping optional check. Label: " + label);
+                    System.out.println("Visual comparison failed! Skipping optional check. Label: " + label);
                 }
             }
         } catch (IOException e) {
