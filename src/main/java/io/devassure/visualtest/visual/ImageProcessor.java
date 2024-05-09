@@ -7,13 +7,14 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import org.openqa.selenium.devtools.v122.dom.model.RGBA;
 import org.openqa.selenium.io.FileHandler;
 
 public class ImageProcessor {
 
+    private static final double DEFAULT_THRESHOLD = 0.1;
+
     public static boolean compareImages(File baseFile, File snapshotFile, String label) throws IOException {
-        return compareImages(baseFile, snapshotFile, label, 1);
+        return compareImages(baseFile, snapshotFile, label, DEFAULT_THRESHOLD);
     }
     
     public static boolean compareImages(File baseFile, File snapshotFile, String label, double threshold) throws IOException {

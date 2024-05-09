@@ -8,18 +8,27 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.io.FileHandler;
+import org.testng.Assert;
 
 public class VisualComparisonService {
 
     public void visualComparePage(WebDriver driver, String label) {
-        visualCompare((TakesScreenshot) driver, label);
+        visualCompare((TakesScreenshot) driver, label, false);
     }
 
     public void visualCompareElement(WebElement element, String label) {
-        visualCompare((TakesScreenshot) element, label);
+        visualCompare((TakesScreenshot) element, label, false);
+    }
+
+    public void visualComparePage(WebDriver driver, String label, boolean optional) {
+        visualCompare((TakesScreenshot) driver, label, optional);
+    }
+
+    public void visualCompareElement(WebElement element, String label, boolean optional) {
+        visualCompare((TakesScreenshot) element, label, optional);
     }
     
-    private void visualCompare(TakesScreenshot screenshotObj, String label) {
+    private void visualCompare(TakesScreenshot screenshotObj, String label, boolean optional) {
         File baseFile = new File("visual-compare-base/" + label + ".png");
         try {
             if(!baseFile.exists()) {
@@ -27,11 +36,20 @@ public class VisualComparisonService {
                 this.saveBaseSnapshot((TakesScreenshot)screenshotObj, baseFile);
             } else {
                 File screen = ((TakesScreenshot)screenshotObj).getScreenshotAs(OutputType.FILE);
-                ImageProcessor.compareImages(baseFile, screen, label);
+                boolean result = ImageProcessor.compareImages(baseFile, screen, label);
+                if(!result && !optional) {
+                    Assert.fail("Visual comparison Failed! The current snapshot is deviating from base the base snapshot for label " + label);
+                } else if(result) {
+                    System.out.println("Visual comaprison passed! Label: " + label);
+                } else {
+                    System.out.println("Visual comaprison failed! Skipping optional check. Label: " + label);
+                }
             }
         } catch (IOException e) {
-            System.err.println("Error doing visual comparison");
-            e.printStackTrace();
+            System.err.println("Error performing visual comparison");
+            if(!optional) {
+                Assert.fail("Error performing visual comparison", e);
+            }
         }
     }
 
